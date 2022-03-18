@@ -19,5 +19,17 @@ module.exports = {
       },
       __key: 'images',
     },
+    {
+      resolve: 'gatsby-plugin-manifest',
+      options: {
+        icon: `src/images/gatsby-icon.png`,
+        name: `F in the Chat`,
+        short_name: `F`,
+        start_url: `/`,
+        background_color: `#fff`,
+        theme_color: `#000`,
+        display: `standalone`,
+      },
+    },
   ],
 };
