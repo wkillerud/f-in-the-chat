@@ -49,7 +49,7 @@ export default function Index() {
             __html: fontFace,
           }}
         ></style>
-        <p className="big-f" style={{ fontFamily }}>
+        <p className="big-f" style={{ fontFamily, fontStyle, fontWeight }}>
           F
         </p>
       </div>
