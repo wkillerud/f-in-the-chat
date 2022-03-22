@@ -10,12 +10,13 @@ const pageStyles = {
 const container = {
   display: 'flex',
   justifyContent: 'center',
+  height: '97vh',
 };
 
 const bigFStyles = {
-  marginBlockStart: '1vh',
-  marginBlockEnd: '1vh',
-  fontSize: '70vh',
+  margin: '0',
+  fontSize: '75vh',
+  lineHeight: '97vh',
 };
 
 type FontWeight = {
