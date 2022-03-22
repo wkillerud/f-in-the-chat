@@ -1,0 +1,32 @@
+@use "sass:color";
+
+$dark: #0a0a0a;
+$light: color.invert($dark);
+
+:root {
+  color: $dark;
+  background-color: $light;
+  font-size: 16px;
+  font-family: -apple-system, Roboto, sans-serif, serif;
+
+  @media screen and (prefers-color-scheme: dark) {
+    color: $light;
+    background-color: $dark;
+  }
+}
+
+.f-container {
+  display: flex;
+  justify-content: center;
+  height: 97vh;
+}
+
+.big-f {
+  margin: 0;
+  font-size: 75vh;
+  line-height: 97vh;
+}
+
+.footer {
+  text-align: center;
+}

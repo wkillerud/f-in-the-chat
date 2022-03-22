@@ -1,48 +1,6 @@
-import fonts from 'google-fonts-complete';
-import { json, useLoaderData } from 'remix';
-
-const pageStyles = {
-  color: '#232129',
-  fontSize: '16px',
-  fontFamily: '-apple-system, Roboto, sans-serif, serif',
-};
-
-const container = {
-  display: 'flex',
-  justifyContent: 'center',
-};
-
-const bigFStyles = {
-  marginBlockStart: '1vh',
-  marginBlockEnd: '1vh',
-  fontSize: '70vh',
-};
-
-type FontWeight = {
-  local: string[];
-  url: {
-    woff: string;
-    woff2: string;
-  };
-};
-
-type FontStyle = {
-  '100'?: FontWeight;
-  '200'?: FontWeight;
-  '300'?: FontWeight;
-  '400'?: FontWeight;
-  '500'?: FontWeight;
-  '600'?: FontWeight;
-  '700'?: FontWeight;
-  '800'?: FontWeight;
-  '900'?: FontWeight;
-};
-
-type Font = {
-  normal?: FontStyle;
-  italic?: FontStyle;
-  oblique?: FontStyle;
-};
+import { json, LinksFunction, useLoaderData } from 'remix';
+import type { Font } from '../fonts';
+import fontList from '../fonts';
 
 type FontFace = {
   fontStyle: string;
@@ -56,8 +14,7 @@ function random(min: number, max: number) {
 }
 
 export const loader = async () => {
-  const fontList = Object.values(fonts);
-  const font: Font = fontList[random(0, fontList.length - 1)].variants;
+  const font: Font = fontList[random(0, fontList.length - 1)];
   const styles = Object.entries(font);
   const [fontStyle, randomFontStyle] = styles[random(0, styles.length - 1)];
   const weights = Object.entries(randomFontStyle);
@@ -67,8 +24,7 @@ export const loader = async () => {
     fontStyle,
     fontWeight,
     fontFamily,
-    src: `url("${details.url.woff2}") format("woff2"),
-      url("${details.url.woff}") format("woff")`,
+    src: `url("${details.url.woff2}") format("woff2")`,
   });
 };
 
@@ -86,15 +42,36 @@ export default function Index() {
 `;
 
   return (
-    <main style={pageStyles}>
-      <div style={container}>
+    <main>
+      <div className="f-container">
         <style
           dangerouslySetInnerHTML={{
             __html: fontFace,
           }}
         ></style>
-        <p style={{ ...bigFStyles, fontFamily }}>F</p>
+        <p className="big-f" style={{ fontFamily }}>
+          F
+        </p>
       </div>
+      <footer className="footer">
+        <p>Privacy: no cookies, no analytics, no third parties</p>
+        <p>
+          All fonts by{' '}
+          <a href="https://www.theleagueofmoveabletype.com">
+            The League of Movable Type
+          </a>
+          . Current font: {fontFamily} {fontStyle} {fontWeight}.
+        </p>
+      </footer>
     </main>
   );
 }
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: 'stylesheet',
+      href: '/styles.css',
+    },
+  ];
+};
