@@ -1,5 +1,6 @@
-import fonts from 'google-fonts-complete';
 import { json, useLoaderData } from 'remix';
+import type { Font } from '../fonts';
+import fontList from '../fonts';
 
 const pageStyles = {
   color: '#232129',
@@ -19,32 +20,6 @@ const bigFStyles = {
   lineHeight: '97vh',
 };
 
-type FontWeight = {
-  local: string[];
-  url: {
-    woff: string;
-    woff2: string;
-  };
-};
-
-type FontStyle = {
-  '100'?: FontWeight;
-  '200'?: FontWeight;
-  '300'?: FontWeight;
-  '400'?: FontWeight;
-  '500'?: FontWeight;
-  '600'?: FontWeight;
-  '700'?: FontWeight;
-  '800'?: FontWeight;
-  '900'?: FontWeight;
-};
-
-type Font = {
-  normal?: FontStyle;
-  italic?: FontStyle;
-  oblique?: FontStyle;
-};
-
 type FontFace = {
   fontStyle: string;
   fontWeight: string;
@@ -57,8 +32,7 @@ function random(min: number, max: number) {
 }
 
 export const loader = async () => {
-  const fontList = Object.values(fonts);
-  const font: Font = fontList[random(0, fontList.length - 1)].variants;
+  const font: Font = fontList[random(0, fontList.length - 1)];
   const styles = Object.entries(font);
   const [fontStyle, randomFontStyle] = styles[random(0, styles.length - 1)];
   const weights = Object.entries(randomFontStyle);
@@ -68,8 +42,7 @@ export const loader = async () => {
     fontStyle,
     fontWeight,
     fontFamily,
-    src: `url("${details.url.woff2}") format("woff2"),
-      url("${details.url.woff}") format("woff")`,
+    src: `url("${details.url.woff2}") format("woff2")`,
   });
 };
 
@@ -96,6 +69,16 @@ export default function Index() {
         ></style>
         <p style={{ ...bigFStyles, fontFamily }}>F</p>
       </div>
+      <footer>
+        <p>Privacy: no cookies, no analytics, no third parties</p>
+        <p>
+          All fonts by{' '}
+          <a href="https://www.theleagueofmoveabletype.com">
+            The League of Movable Type
+          </a>
+          . Current font: {fontFamily} {fontStyle} {fontWeight}.
+        </p>
+      </footer>
     </main>
   );
 }
