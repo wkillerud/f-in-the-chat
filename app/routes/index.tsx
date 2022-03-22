@@ -1,24 +1,6 @@
-import { json, useLoaderData } from 'remix';
+import { json, LinksFunction, useLoaderData } from 'remix';
 import type { Font } from '../fonts';
 import fontList from '../fonts';
-
-const pageStyles = {
-  color: '#232129',
-  fontSize: '16px',
-  fontFamily: '-apple-system, Roboto, sans-serif, serif',
-};
-
-const container = {
-  display: 'flex',
-  justifyContent: 'center',
-  height: '97vh',
-};
-
-const bigFStyles = {
-  margin: '0',
-  fontSize: '75vh',
-  lineHeight: '97vh',
-};
 
 type FontFace = {
   fontStyle: string;
@@ -60,16 +42,18 @@ export default function Index() {
 `;
 
   return (
-    <main style={pageStyles}>
-      <div style={container}>
+    <main>
+      <div className="f-container">
         <style
           dangerouslySetInnerHTML={{
             __html: fontFace,
           }}
         ></style>
-        <p style={{ ...bigFStyles, fontFamily }}>F</p>
+        <p className="big-f" style={{ fontFamily }}>
+          F
+        </p>
       </div>
-      <footer>
+      <footer className="footer">
         <p>Privacy: no cookies, no analytics, no third parties</p>
         <p>
           All fonts by{' '}
@@ -82,3 +66,12 @@ export default function Index() {
     </main>
   );
 }
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: 'stylesheet',
+      href: '/styles.css',
+    },
+  ];
+};
