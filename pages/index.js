@@ -1,29 +1,81 @@
-type FontWeight = {
-  local: string[];
-  url: {
-    woff2: string;
+import Head from 'next/head';
+
+export function getServerSideProps() {
+  const font = fontList[random(0, fontList.length - 1)];
+  const styles = Object.entries(font);
+  const [fontStyle, randomFontStyle] = styles[random(0, styles.length - 1)];
+  const weights = Object.entries(randomFontStyle);
+  const [fontWeight, details] = weights[random(0, weights.length - 1)];
+  const fontFamily = details.local[random(0, details.local.length - 1)];
+
+  return {
+    props: {
+      fontStyle,
+      fontWeight,
+      fontFamily,
+      src: `url("${details.url.woff2}") format("woff2")`,
+    },
   };
-};
+}
 
-type FontStyle = {
-  '100'?: FontWeight;
-  '200'?: FontWeight;
-  '300'?: FontWeight;
-  '400'?: FontWeight;
-  '500'?: FontWeight;
-  '600'?: FontWeight;
-  '700'?: FontWeight;
-  '800'?: FontWeight;
-  '900'?: FontWeight;
-};
+export default function Home({ fontStyle, fontWeight, fontFamily, src }) {
+  const fontFace = `
+  @font-face {
+    font-display: fallback;
+    font-style: ${fontStyle};
+    font-weight: ${fontWeight};
+    font-family: ${fontFamily};
+    src: ${src};
+  }
+`;
 
-export type Font = {
-  normal?: FontStyle;
-  italic?: FontStyle;
-  oblique?: FontStyle;
-};
+  return (
+    <>
+      <Head>
+        <title>F in the Chat</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="charset" content="utf-8" />
+        <meta name="description" content="Paying respects as a Service" />
+        <meta name="og:title" content="F in the Chat" />
+        <meta name="og:description" content="Paying respects as a Service" />
+        <meta name="og:type" content="website" />
+        <meta
+          name="og:image"
+          content="http://f-in-the-chat.vercel.app/og_image.png"
+        />
+        <link rel="icon" href="/favicon.ico" />
+        <style
+          dangerouslySetInnerHTML={{
+            __html: fontFace,
+          }}
+        ></style>
+      </Head>
+      <main>
+        <div className="f-container">
+          <p className="big-f" style={{ fontFamily, fontStyle, fontWeight }}>
+            F
+          </p>
+        </div>
+        <footer className="footer">
+          <p>
+            Current font: {fontFamily} {fontStyle} {fontWeight}. All fonts by{' '}
+            <a href="https://www.theleagueofmoveabletype.com">
+              The League of Movable Type
+            </a>
+            .
+          </p>
+          <p>Privacy: no cookies, no analytics, no third parties</p>
+        </footer>
+      </main>
+    </>
+  );
+}
 
-const fonts: Font[] = [
+function random(min, max) {
+  return min + Math.floor(Math.random() * (max - min + 1));
+}
+
+const fontList = [
   {
     normal: {
       400: {
@@ -311,5 +363,3 @@ const fonts: Font[] = [
     },
   },
 ];
-
-export default fonts;
